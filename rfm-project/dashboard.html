@@ -1,402 +1,379 @@
-{\rtf1\ansi\ansicpg874\cocoartf2867
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;\red70\green137\blue204;\red23\green24\blue24;\red140\green211\blue254;
-\red202\green202\blue202;\red109\green109\blue109;\red194\green126\blue101;\red109\green115\blue120;\red212\green212\blue212;
-\red167\green197\blue152;\red113\green192\blue131;\red183\green111\blue247;\red246\green124\blue48;\red54\green192\blue160;
-\red163\green79\blue131;}
-{\*\expandedcolortbl;;\cssrgb\c33725\c61176\c83922;\cssrgb\c11765\c12157\c12549;\cssrgb\c61176\c86275\c99608;
-\cssrgb\c83137\c83137\c83137;\cssrgb\c50196\c50196\c50196;\cssrgb\c80784\c56863\c47059;\cssrgb\c50196\c52549\c54510;\cssrgb\c86275\c86275\c86275;
-\cssrgb\c70980\c80784\c65882;\cssrgb\c50588\c78824\c58431;\cssrgb\c77255\c54118\c97647;\cssrgb\c98039\c56471\c24314;\cssrgb\c23922\c78824\c69020;
-\cssrgb\c70588\c40000\c58431;}
-\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\deftab720
-\pard\pardeftab720\partightenfactor0
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RFM Analytics Dashboard</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root { --bg: #f3f4f6; --primary: #2563eb; --shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        body { font-family: 'Kanit', sans-serif; background: var(--bg); margin: 0; padding: 20px; color: #1f2937; }
+        
+        /* Header & Layout */
+        header { 
+            max-width: 1400px; margin: 0 auto 20px; text-align: center; 
+            background: white; padding: 25px; border-radius: 16px; 
+            box-shadow: var(--shadow); border: 1px solid #e5e7eb; position: relative; overflow: hidden; 
+        }
+        header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); }
+        
+        /* --- เพิ่มปุ่ม Simulation ตรงนี้ --- */
+        .sim-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+        .sim-btn:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(37, 99, 235, 0.3);
+        }
+        @media (max-width: 768px) {
+            .sim-btn { position: static; margin-top: 15px; display: inline-flex; }
+        }
+        /* ------------------------------- */
 
-\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec2 <!DOCTYPE\cf4 \strokec4  html\cf2 \strokec2 >\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 <\cf2 \strokec2 html\cf5 \strokec5  \cf4 \strokec4 lang\cf6 \strokec6 =\cf7 \strokec7 "th"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cf6 \cb3 \strokec6 <\cf2 \strokec2 head\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3     \cf6 \strokec6 <\cf2 \strokec2 meta\cf5 \strokec5  \cf4 \strokec4 charset\cf6 \strokec6 =\cf7 \strokec7 "UTF-8"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 meta\cf5 \strokec5  \cf4 \strokec4 name\cf6 \strokec6 =\cf7 \strokec7 "viewport"\cf5 \strokec5  \cf4 \strokec4 content\cf6 \strokec6 =\cf7 \strokec7 "width=device-width, initial-scale=1.0"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 title\cf6 \strokec6 >\cf5 \strokec5 RFM Analytics Dashboard\cf6 \strokec6 </\cf2 \strokec2 title\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf8 \strokec8 <!-- Google Font -->\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 link\cf5 \strokec5  \cf4 \strokec4 href\cf6 \strokec6 =\cf7 \strokec7 "https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap"\cf5 \strokec5  \cf4 \strokec4 rel\cf6 \strokec6 =\cf7 \strokec7 "stylesheet"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf8 \strokec8 <!-- Libraries -->\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 link\cf5 \strokec5  \cf4 \strokec4 rel\cf6 \strokec6 =\cf7 \strokec7 "stylesheet"\cf5 \strokec5  \cf4 \strokec4 href\cf6 \strokec6 =\cf7 \strokec7 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf5 \strokec5  \cf4 \strokec4 src\cf6 \strokec6 =\cf7 \strokec7 "https://cdn.jsdelivr.net/npm/chart.js"\cf6 \strokec6 ></\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cb1 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 style\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 :root\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 --bg:\cf5 \strokec5  #f3f4f6\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 --primary:\cf5 \strokec5  #2563eb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 --shadow:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf10 \strokec10 4px\cf5 \strokec5  \cf10 \strokec10 6px\cf5 \strokec5  \cf10 \strokec10 -1px\cf5 \strokec5  \cf7 \strokec7 rgba(\cf10 \strokec10 0\cf9 \strokec9 ,\cf10 \strokec10 0\cf9 \strokec9 ,\cf10 \strokec10 0\cf9 \strokec9 ,\cf10 \strokec10 0.1\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 body\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 font-family:\cf5 \strokec5  \cf11 \strokec11 'Kanit'\cf9 \strokec9 ,\cf5 \strokec5  \cf7 \strokec7 sans-serif\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 var(--bg)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #1f2937\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 /* Header & Layout */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 header\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cb1 \
-\cb3             \cf4 \strokec4 max-width:\cf5 \strokec5  \cf10 \strokec10 1400px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf7 \strokec7 auto\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 text-align:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cb1 \
-\cb3             \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 25px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 16px\cf9 \strokec9 ;\cf5 \strokec5  \cb1 \
-\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf7 \strokec7 var(--shadow)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 relative\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 overflow:\cf5 \strokec5  \cf7 \strokec7 hidden\cf9 \strokec9 ;\cf5 \strokec5  \cb1 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 header::before\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 content:\cf5 \strokec5  \cf11 \strokec11 ''\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 absolute\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 top:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 left:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 right:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 height:\cf5 \strokec5  \cf10 \strokec10 5px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 linear-gradient(\cf10 \strokec10 90deg\cf9 \strokec9 ,\cf5 \strokec5  #3b82f6\cf9 \strokec9 ,\cf5 \strokec5  #8b5cf6\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 /* --- \uc0\u3648 \u3614 \u3636 \u3656 \u3617 \u3611 \u3640 \u3656 \u3617  Simulation \u3605 \u3619 \u3591 \u3609 \u3637 \u3657  --- */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .sim-btn\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 absolute\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 top:\cf5 \strokec5  \cf10 \strokec10 25px\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 right:\cf5 \strokec5  \cf10 \strokec10 25px\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 inline-flex\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 10px\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 text-decoration:\cf5 \strokec5  \cf7 \strokec7 none\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 600\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 transition:\cf5 \strokec5  \cf7 \strokec7 all\cf5 \strokec5  \cf10 \strokec10 0.2s\cf5 \strokec5  \cf7 \strokec7 ease\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf7 \strokec7 var(--shadow)\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 z-index:\cf5 \strokec5  \cf10 \strokec10 10\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .sim-btn:hover\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 translateY(\cf10 \strokec10 -2px\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf10 \strokec10 6px\cf5 \strokec5  \cf10 \strokec10 8px\cf5 \strokec5  \cf10 \strokec10 -1px\cf5 \strokec5  \cf7 \strokec7 rgba(\cf10 \strokec10 37\cf9 \strokec9 ,\cf5 \strokec5  \cf10 \strokec10 99\cf9 \strokec9 ,\cf5 \strokec5  \cf10 \strokec10 235\cf9 \strokec9 ,\cf5 \strokec5  \cf10 \strokec10 0.3\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         @\cf2 \strokec2 media\cf5 \strokec5  (\cf2 \strokec2 max-width:\cf5 \strokec5  768\cf2 \strokec2 px\cf5 \strokec5 ) \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             .sim-btn \{ \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 static\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin-top:\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 inline-flex\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \}\cb1 \
-\cb3         \cf8 \strokec8 /* ------------------------------- */\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf2 \strokec2 .controls-card\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 max-width:\cf5 \strokec5  \cf10 \strokec10 1400px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf7 \strokec7 auto\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 16px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf7 \strokec7 var(--shadow)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 /* Tabs */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .tabs\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 justify-content:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 10px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin-bottom:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .tab-btn\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 10px\cf5 \strokec5  \cf10 \strokec10 24px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 cursor:\cf5 \strokec5  \cf7 \strokec7 pointer\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #f9fafb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 500\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 transition:\cf5 \strokec5  \cf10 \strokec10 0.2s\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .tab-btn.active\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-color:\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .input-group\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 none\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 flex-direction:\cf5 \strokec5  \cf7 \strokec7 column\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .input-group.active\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf2 \strokec2 .url-input\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 width:\cf5 \strokec5  \cf10 \strokec10 100%\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 max-width:\cf5 \strokec5  \cf10 \strokec10 600px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 12px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #d1d5db\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-family:\cf5 \strokec5  \cf11 \strokec11 'Kanit'\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-size:\cf5 \strokec5  \cf10 \strokec10 1rem\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .btn-primary\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 var(--primary)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 10px\cf5 \strokec5  \cf10 \strokec10 24px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf7 \strokec7 none\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 cursor:\cf5 \strokec5  \cf7 \strokec7 pointer\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 500\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .btn-primary:hover\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #1d4ed8\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 /* Filter Bar */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .filter-bar\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 flex-wrap:\cf5 \strokec5  \cf7 \strokec7 wrap\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 justify-content:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin-top:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding-top:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-top:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .filter-select\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 8px\cf5 \strokec5  \cf10 \strokec10 12px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 6px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #d1d5db\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-family:\cf5 \strokec5  \cf11 \strokec11 'Kanit'\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 min-width:\cf5 \strokec5  \cf10 \strokec10 200px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #f9fafb\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 /* Charts */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .charts-container\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 max-width:\cf5 \strokec5  \cf10 \strokec10 1400px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf7 \strokec7 auto\cf5 \strokec5  \cf10 \strokec10 30px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 grid\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 grid-template-columns:\cf5 \strokec5  \cf10 \strokec10 1fr\cf5 \strokec5  \cf10 \strokec10 1fr\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 24px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .chart-full\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 grid-column:\cf5 \strokec5  \cf10 \strokec10 1\cf5 \strokec5  \cf9 \strokec9 /\cf5 \strokec5  \cf10 \strokec10 -1\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .chart-card\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 16px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf7 \strokec7 var(--shadow)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 height:\cf5 \strokec5  \cf10 \strokec10 400px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 relative\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 /* Dashboard Cards */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .dashboard-grid\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 grid\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 grid-template-columns:\cf5 \strokec5  \cf7 \strokec7 repeat(auto-fill\cf9 \strokec9 ,\cf5 \strokec5  \cf7 \strokec7 minmax(\cf10 \strokec10 320px\cf9 \strokec9 ,\cf5 \strokec5  \cf10 \strokec10 1fr\cf7 \strokec7 ))\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 20px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 max-width:\cf5 \strokec5  \cf10 \strokec10 1400px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 0\cf5 \strokec5  \cf7 \strokec7 auto\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .card\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 12px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 box-shadow:\cf5 \strokec5  \cf7 \strokec7 var(--shadow)\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 overflow:\cf5 \strokec5  \cf7 \strokec7 hidden\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 transition:\cf5 \strokec5  \cf7 \strokec7 transform\cf5 \strokec5  \cf10 \strokec10 0.2s\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #e5e7eb\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .card:hover\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 translateY(\cf10 \strokec10 -3px\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .card-header\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 12px\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  \cf7 \strokec7 white\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 justify-content:\cf5 \strokec5  \cf7 \strokec7 space-between\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 600\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .card-body\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf2 \strokec2 .metric-block\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 flex-direction:\cf5 \strokec5  \cf7 \strokec7 column\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .metric-block.right\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 flex-end\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 text-align:\cf5 \strokec5  \cf7 \strokec7 right\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .metric-val\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 font-size:\cf5 \strokec5  \cf10 \strokec10 1.2rem\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 600\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #111827\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .metric-label\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 font-size:\cf5 \strokec5  \cf10 \strokec10 0.8rem\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #6b7280\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .main-metrics\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 justify-content:\cf5 \strokec5  \cf7 \strokec7 space-between\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin:\cf5 \strokec5  \cf10 \strokec10 15px\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-bottom:\cf5 \strokec5  \cf10 \strokec10 1px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #eee\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding-bottom:\cf5 \strokec5  \cf10 \strokec10 15px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 /* Growth Badges */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .growth-badge\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 font-size:\cf5 \strokec5  \cf10 \strokec10 0.75rem\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-weight:\cf5 \strokec5  \cf10 \strokec10 500\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 inline-flex\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 3px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 2px\cf5 \strokec5  \cf10 \strokec10 6px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 4px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin-top:\cf5 \strokec5  \cf10 \strokec10 4px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .growth-up\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #059669\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #d1fae5\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .growth-down\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #dc2626\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #fee2e2\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .growth-neutral\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 color:\cf5 \strokec5  #6b7280\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #f3f4f6\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf2 \strokec2 .rfm-grid\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 grid\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 grid-template-columns:\cf5 \strokec5  \cf10 \strokec10 1fr\cf5 \strokec5  \cf10 \strokec10 1fr\cf5 \strokec5  \cf10 \strokec10 1fr\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 gap:\cf5 \strokec5  \cf10 \strokec10 5px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 text-align:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 font-size:\cf5 \strokec5  \cf10 \strokec10 0.8rem\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .rfm-box\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #f9fafb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 padding:\cf5 \strokec5  \cf10 \strokec10 8px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 6px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 /* Loading */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 #loadingOverlay\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 position:\cf5 \strokec5  \cf7 \strokec7 fixed\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 top:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 left:\cf5 \strokec5  \cf10 \strokec10 0\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 width:\cf5 \strokec5  \cf10 \strokec10 100%\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 height:\cf5 \strokec5  \cf10 \strokec10 100%\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  \cf7 \strokec7 rgba(\cf10 \strokec10 255\cf9 \strokec9 ,\cf10 \strokec10 255\cf9 \strokec9 ,\cf10 \strokec10 255\cf9 \strokec9 ,\cf10 \strokec10 0.8\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 display:\cf5 \strokec5  \cf7 \strokec7 none\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 justify-content:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 align-items:\cf5 \strokec5  \cf7 \strokec7 center\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 z-index:\cf5 \strokec5  \cf10 \strokec10 1000\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 flex-direction:\cf5 \strokec5  \cf7 \strokec7 column\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .spinner\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 border:\cf5 \strokec5  \cf10 \strokec10 4px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #f3f3f3\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-top:\cf5 \strokec5  \cf10 \strokec10 4px\cf5 \strokec5  \cf7 \strokec7 solid\cf5 \strokec5  #2563eb\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 border-radius:\cf5 \strokec5  \cf10 \strokec10 50%\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 width:\cf5 \strokec5  \cf10 \strokec10 40px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 height:\cf5 \strokec5  \cf10 \strokec10 40px\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 animation:\cf5 \strokec5  \cf7 \strokec7 spin\cf5 \strokec5  \cf10 \strokec10 1s\cf5 \strokec5  \cf7 \strokec7 linear\cf5 \strokec5  \cf7 \strokec7 infinite\cf9 \strokec9 ;\cf5 \strokec5  \cf4 \strokec4 margin-bottom:\cf5 \strokec5  \cf10 \strokec10 10px\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 @keyframes\cf5 \strokec5  \cf7 \strokec7 spin\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf10 \strokec10 0%\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 rotate(\cf10 \strokec10 0deg\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf10 \strokec10 100%\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 transform:\cf5 \strokec5  \cf7 \strokec7 rotate(\cf10 \strokec10 360deg\cf7 \strokec7 )\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 /* Dynamic Colors */\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .bg-seq-1\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #10b981\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-2\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #34d399\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-3\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #2dd4bf\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .bg-seq-4\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #06b6d4\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-5\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #38bdf8\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-6\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #60a5fa\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .bg-seq-7\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #818cf8\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-8\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #a78bfa\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-9\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #c084fc\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf2 \strokec2 .bg-seq-10\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #e879f9\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-11\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #fb7185\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-12\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #f472b6\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf2 \strokec2 .bg-seq-13\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf4 \strokec4 background:\cf5 \strokec5  #9ca3af\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 style\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 </\cf2 \strokec2 head\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cf6 \cb3 \strokec6 <\cf2 \strokec2 body\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3     \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "loadingOverlay"\cf6 \strokec6 ><\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "spinner"\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 ><\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3585 \u3635 \u3621 \u3633 \u3591 \u3650 \u3627 \u3621 \u3604 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621 ...\cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 header\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 h1\cf6 \strokec6 ><\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-chart-line"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  RFM Dashboard (Cloud Run Ready)\cf6 \strokec6 </\cf2 \strokec2 h1\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 p\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "color:#6b7280;"\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3648 \u3594 \u3639 \u3656 \u3629 \u3617 \u3605 \u3656 \u3629 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621 \u3612 \u3656 \u3634 \u3609  CSV \u3627 \u3619 \u3639 \u3629  Cloud Run API (Databricks/BigQuery)\cf6 \strokec6 </\cf2 \strokec2 p\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cb1 \
-\cb3         \cf8 \strokec8 <!-- \uc0\u3648 \u3614 \u3636 \u3656 \u3617 \u3611 \u3640 \u3656 \u3617 \u3609 \u3637 \u3657 \u3648 \u3614 \u3639 \u3656 \u3629 \u3621 \u3636 \u3657 \u3591 \u3588 \u3660 \u3652 \u3611 \u3627 \u3609 \u3657 \u3634  Simulation -->\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 a\cf5 \strokec5  \cf4 \strokec4 href\cf6 \strokec6 =\cf7 \strokec7 "rfm-simulation.html"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "sim-btn"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-flask"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  RFM Simulation\cb1 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 a\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 header\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "controls-card"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "tabs"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "tab-btn active"\cf5 \strokec5  \cf4 \strokec4 onclick\cf6 \strokec6 =\cf7 \strokec7 "switchTab('csv')"\cf6 \strokec6 ><\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-file-csv"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  Upload CSV\cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "tab-btn"\cf5 \strokec5  \cf4 \strokec4 onclick\cf6 \strokec6 =\cf7 \strokec7 "switchTab('api')"\cf6 \strokec6 ><\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-cloud"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  Connect API\cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 <!-- CSV Input -->\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "csvInput"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "input-group active"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 input\cf5 \strokec5  \cf4 \strokec4 type\cf6 \strokec6 =\cf7 \strokec7 "file"\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "csvFile"\cf5 \strokec5  \cf4 \strokec4 accept\cf6 \strokec6 =\cf7 \strokec7 ".csv"\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "display:none;"\cf5 \strokec5  \cf4 \strokec4 onchange\cf6 \strokec6 =\cf7 \strokec7 "handleCSV(this)"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 button\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "btn-primary"\cf5 \strokec5  \cf4 \strokec4 onclick\cf6 \strokec6 =\cf7 \strokec7 "document.getElementById('csvFile').click()"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3                 \cf6 \strokec6 <\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-upload"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  \uc0\u3648 \u3621 \u3639 \u3629 \u3585 \u3652 \u3615 \u3621 \u3660  CSV\cb1 \
-\cb3             \cf6 \strokec6 </\cf2 \strokec2 button\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 <!-- API Input -->\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "apiInput"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "input-group"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 label\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "font-size:0.9rem; color:#6b7280;"\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3651 \u3626 \u3656  Cloud Run URL (\u3605 \u3657 \u3629 \u3591 \u3621 \u3591 \u3607 \u3657 \u3634 \u3618 \u3604 \u3657 \u3623 \u3618  /api/rfm-data)\cf6 \strokec6 </\cf2 \strokec2 label\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 input\cf5 \strokec5  \cf4 \strokec4 type\cf6 \strokec6 =\cf7 \strokec7 "text"\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "apiUrl"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "url-input"\cf5 \strokec5  \cf4 \strokec4 placeholder\cf6 \strokec6 =\cf7 \strokec7 "https://rfm-api-service-xyz.a.run.app/api/rfm-data"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 button\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "btn-primary"\cf5 \strokec5  \cf4 \strokec4 onclick\cf6 \strokec6 =\cf7 \strokec7 "fetchAPIData()"\cf6 \strokec6 ><\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-sync"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \strokec5  \uc0\u3604 \u3638 \u3591 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621  API\cf6 \strokec6 </\cf2 \strokec2 button\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "statusMsg"\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "text-align:center; margin-top:10px; color:#059669; font-size:0.9rem;"\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf8 \strokec8 <!-- Filters -->\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "filterSection"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "filter-bar"\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "display:none;"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3                 \cf6 \strokec6 <\cf2 \strokec2 label\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "font-size:0.85rem; font-weight:600; display:block; margin-bottom:5px;"\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3591 \u3623 \u3604 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621  (Most_Round)\cf6 \strokec6 </\cf2 \strokec2 label\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3                 \cf6 \strokec6 <\cf2 \strokec2 select\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "roundFilter"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "filter-select"\cf5 \strokec5  \cf4 \strokec4 onchange\cf6 \strokec6 =\cf7 \strokec7 "applyFilters()"\cf6 \strokec6 ></\cf2 \strokec2 select\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3                 \cf6 \strokec6 <\cf2 \strokec2 label\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "font-size:0.85rem; font-weight:600; display:block; margin-bottom:5px;"\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3585 \u3621 \u3640 \u3656 \u3617 \u3621 \u3641 \u3585 \u3588 \u3657 \u3634  (Segment)\cf6 \strokec6 </\cf2 \strokec2 label\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3                 \cf6 \strokec6 <\cf2 \strokec2 select\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "segmentFilter"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "filter-select"\cf5 \strokec5  \cf4 \strokec4 onchange\cf6 \strokec6 =\cf7 \strokec7 "applyFilters()"\cf6 \strokec6 ></\cf2 \strokec2 select\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3     \cf8 \strokec8 <!-- Charts -->\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "charts-container"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "chart-card"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 h3\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "text-align:center; font-size:1rem; margin-bottom:10px;"\cf6 \strokec6 >\cf5 \strokec5 User Distribution (Log Scale)\cf6 \strokec6 </\cf2 \strokec2 h3\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "height:340px;"\cf6 \strokec6 ><\cf2 \strokec2 canvas\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "userChart"\cf6 \strokec6 ></\cf2 \strokec2 canvas\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "chart-card"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 h3\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "text-align:center; font-size:1rem; margin-bottom:10px;"\cf6 \strokec6 >\cf5 \strokec5 Revenue Share\cf6 \strokec6 </\cf2 \strokec2 h3\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "height:340px;"\cf6 \strokec6 ><\cf2 \strokec2 canvas\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "revenueChart"\cf6 \strokec6 ></\cf2 \strokec2 canvas\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "chart-card chart-full"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 h3\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "text-align:center; font-size:1rem; margin-bottom:10px;"\cf6 \strokec6 >\cf5 \strokec5 RFM Matrix\cf6 \strokec6 </\cf2 \strokec2 h3\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "height:340px;"\cf6 \strokec6 ><\cf2 \strokec2 canvas\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "bubbleChart"\cf6 \strokec6 ></\cf2 \strokec2 canvas\cf6 \strokec6 ></\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3     \cf8 \strokec8 <!-- Cards -->\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 id\cf6 \strokec6 =\cf7 \strokec7 "dashboard"\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "dashboard-grid"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 <\cf2 \strokec2 div\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "grid-column:1/-1; text-align:center; padding:50px; color:#9ca3af;"\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 i\cf5 \strokec5  \cf4 \strokec4 class\cf6 \strokec6 =\cf7 \strokec7 "fas fa-cloud-download-alt"\cf5 \strokec5  \cf4 \strokec4 style\cf6 \strokec6 =\cf7 \strokec7 "font-size:3rem; margin-bottom:15px;"\cf6 \strokec6 ></\cf2 \strokec2 i\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3             \cf6 \strokec6 <\cf2 \strokec2 h3\cf6 \strokec6 >\cf5 \strokec5 \uc0\u3619 \u3629 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621 ...\cf6 \strokec6 </\cf2 \strokec2 h3\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 div\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\
-\cb3     \cf6 \strokec6 <\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 let\cf5 \strokec5  allDataRaw \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [],\cf5 \strokec5  allRounds \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [];\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  switchTab\cf9 \strokec9 (\cf5 \strokec5 mode\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             document\cf9 \strokec9 .\cf5 \strokec5 querySelectorAll\cf9 \strokec9 (\cf11 \strokec11 '.tab-btn'\cf9 \strokec9 ).\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 b \cf9 \strokec9 =>\cf5 \strokec5  b\cf9 \strokec9 .\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 remove\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\cb3             document\cf9 \strokec9 .\cf5 \strokec5 querySelectorAll\cf9 \strokec9 (\cf11 \strokec11 '.input-group'\cf9 \strokec9 ).\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 g \cf9 \strokec9 =>\cf5 \strokec5  g\cf9 \strokec9 .\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 remove\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 mode \cf9 \strokec9 ===\cf5 \strokec5  \cf11 \strokec11 'csv'\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 document\cf9 \strokec9 .\cf5 \strokec5 querySelectorAll\cf9 \strokec9 (\cf11 \strokec11 '.tab-btn'\cf9 \strokec9 )[\cf13 \strokec13 0\cf9 \strokec9 ].\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 add\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'csvInput'\cf9 \strokec9 ).\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 add\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \}\cf5 \strokec5  \cf12 \strokec12 else\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 document\cf9 \strokec9 .\cf5 \strokec5 querySelectorAll\cf9 \strokec9 (\cf11 \strokec11 '.tab-btn'\cf9 \strokec9 )[\cf13 \strokec13 1\cf9 \strokec9 ].\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 add\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'apiInput'\cf9 \strokec9 ).\cf5 \strokec5 classList\cf9 \strokec9 .\cf5 \strokec5 add\cf9 \strokec9 (\cf11 \strokec11 'active'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  handleCSV\cf9 \strokec9 (\cf5 \strokec5 input\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  file \cf9 \strokec9 =\cf5 \strokec5  input\cf9 \strokec9 .\cf5 \strokec5 files\cf9 \strokec9 [\cf13 \strokec13 0\cf9 \strokec9 ];\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 file\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 return\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             setLoading\cf9 \strokec9 (\cf12 \strokec12 true\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf14 \strokec14 Papa\cf9 \strokec9 .\cf5 \strokec5 parse\cf9 \strokec9 (\cf5 \strokec5 file\cf9 \strokec9 ,\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  header\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 true\cf9 \strokec9 ,\cf5 \strokec5  dynamicTyping\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 false\cf9 \strokec9 ,\cf5 \strokec5  skipEmptyLines\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 true\cf9 \strokec9 ,\cf5 \cb1 \strokec5 \
-\cb3                 complete\cf9 \strokec9 :\cf5 \strokec5  res \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  processData\cf9 \strokec9 (\cf5 \strokec5 res\cf9 \strokec9 .\cf5 \strokec5 data\cf9 \strokec9 );\cf5 \strokec5  setLoading\cf9 \strokec9 (\cf12 \strokec12 false\cf9 \strokec9 );\cf5 \strokec5  setStatus\cf9 \strokec9 (\cf11 \strokec11 `\uc0\u3650 \u3627 \u3621 \u3604  CSV: \cf9 \strokec9 $\{\cf5 \strokec5 res\cf9 \strokec9 .\cf5 \strokec5 data\cf9 \strokec9 .\cf5 \strokec5 length\cf9 \strokec9 \}\cf11 \strokec11  \uc0\u3619 \u3634 \u3618 \u3585 \u3634 \u3619 `\cf9 \strokec9 );\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \cb1 \strokec5 \
-\cb3                 error\cf9 \strokec9 :\cf5 \strokec5  err \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  alert\cf9 \strokec9 (\cf5 \strokec5 err\cf9 \strokec9 .\cf5 \strokec5 message\cf9 \strokec9 );\cf5 \strokec5  setLoading\cf9 \strokec9 (\cf12 \strokec12 false\cf9 \strokec9 );\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 async\cf5 \strokec5  \cf12 \strokec12 function\cf5 \strokec5  fetchAPIData\cf9 \strokec9 ()\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  url \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'apiUrl'\cf9 \strokec9 ).\cf5 \strokec5 value\cf9 \strokec9 .\cf5 \strokec5 trim\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 url\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  alert\cf9 \strokec9 (\cf11 \strokec11 "\uc0\u3585 \u3619 \u3640 \u3603 \u3634 \u3651 \u3626 \u3656  URL API"\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             setLoading\cf9 \strokec9 (\cf12 \strokec12 true\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 try\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 const\cf5 \strokec5  res \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 await\cf5 \strokec5  fetch\cf9 \strokec9 (\cf5 \strokec5 url\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 res\cf9 \strokec9 .\cf5 \strokec5 ok\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 throw\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Error\cf9 \strokec9 (\cf11 \strokec11 "API Error: "\cf5 \strokec5  \cf9 \strokec9 +\cf5 \strokec5  res\cf9 \strokec9 .\cf5 \strokec5 status\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 const\cf5 \strokec5  json \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 await\cf5 \strokec5  res\cf9 \strokec9 .\cf5 \strokec5 json\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 const\cf5 \strokec5  rows \cf9 \strokec9 =\cf5 \strokec5  \cf14 \strokec14 Array\cf9 \strokec9 .\cf5 \strokec5 isArray\cf9 \strokec9 (\cf5 \strokec5 json\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  json \cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 json\cf9 \strokec9 .\cf5 \strokec5 data \cf9 \strokec9 ||\cf5 \strokec5  \cf9 \strokec9 []);\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 rows\cf9 \strokec9 .\cf5 \strokec5 length\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 throw\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Error\cf9 \strokec9 (\cf11 \strokec11 "\uc0\u3652 \u3617 \u3656 \u3614 \u3610 \u3586 \u3657 \u3629 \u3617 \u3641 \u3621 "\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 processData\cf9 \strokec9 (\cf5 \strokec5 rows\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 setStatus\cf9 \strokec9 (\cf11 \strokec11 `\uc0\u3604 \u3638 \u3591  API \u3626 \u3635 \u3648 \u3619 \u3655 \u3592 : \cf9 \strokec9 $\{\cf5 \strokec5 rows\cf9 \strokec9 .\cf5 \strokec5 length\cf9 \strokec9 \}\cf11 \strokec11  \uc0\u3619 \u3634 \u3618 \u3585 \u3634 \u3619 `\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \}\cf5 \strokec5  \cf12 \strokec12 catch\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 e\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  alert\cf9 \strokec9 (\cf11 \strokec11 "\uc0\u3648 \u3594 \u3639 \u3656 \u3629 \u3617 \u3605 \u3656 \u3629 \u3652 \u3617 \u3656 \u3652 \u3604 \u3657 : "\cf5 \strokec5  \cf9 \strokec9 +\cf5 \strokec5  e\cf9 \strokec9 .\cf5 \strokec5 message \cf9 \strokec9 +\cf5 \strokec5  \cf11 \strokec11 "\\n(\uc0\u3605 \u3619 \u3623 \u3592 \u3626 \u3629 \u3610  CORS \u3627 \u3619 \u3639 \u3629  URL)"\cf9 \strokec9 );\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cb1 \
-\cb3             \cf12 \strokec12 finally\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  setLoading\cf9 \strokec9 (\cf12 \strokec12 false\cf9 \strokec9 );\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  processData\cf9 \strokec9 (\cf5 \strokec5 rows\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             allDataRaw \cf9 \strokec9 =\cf5 \strokec5  rows\cf9 \strokec9 .\cf5 \strokec5 filter\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ).\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 (\{\cf5 \cb1 \strokec5 \
-\cb3                 \cf9 \strokec9 ...\cf5 \strokec5 d\cf9 \strokec9 ,\cf5 \cb1 \strokec5 \
-\cb3                 \cf14 \strokec14 Count_User_Segment\cf9 \strokec9 :\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Count_User_Segment\cf9 \strokec9 ),\cf5 \cb1 \strokec5 \
-\cb3                 \cf14 \strokec14 ValueSpend\cf9 \strokec9 :\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 ValueSpend\cf9 \strokec9 ),\cf5 \cb1 \strokec5 \
-\cb3                 \cf14 \strokec14 Avg_R\cf9 \strokec9 :\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Avg_R\cf9 \strokec9 ),\cf5 \strokec5  \cf14 \strokec14 Median_F\cf9 \strokec9 :\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Median_F\cf9 \strokec9 ),\cf5 \strokec5  \cf14 \strokec14 Avg_M\cf9 \strokec9 :\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Avg_M\cf9 \strokec9 ),\cf5 \cb1 \strokec5 \
-\cb3                 \cf14 \strokec14 Most_Round\cf9 \strokec9 :\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf9 \strokec9 .\cf5 \strokec5 trim\cf9 \strokec9 ()\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'Unknown'\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \}));\cf5 \cb1 \strokec5 \
-\cb3             setupFilters\cf9 \strokec9 (\cf5 \strokec5 allDataRaw\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             applyFilters\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  cleanNum\cf9 \strokec9 (\cf5 \strokec5 v\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf12 \strokec12 typeof\cf5 \strokec5  v \cf9 \strokec9 ===\cf5 \strokec5  \cf11 \strokec11 'number'\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  v\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf12 \strokec12 typeof\cf5 \strokec5  v \cf9 \strokec9 ===\cf5 \strokec5  \cf11 \strokec11 'string'\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  parseFloat\cf9 \strokec9 (\cf5 \strokec5 v\cf9 \strokec9 .\cf5 \strokec5 replace\cf9 \strokec9 (\cf15 \strokec15 /,/\cf12 \strokec12 g\cf9 \strokec9 ,\cf5 \strokec5  \cf11 \strokec11 ''\cf9 \strokec9 ))\cf5 \strokec5  \cf9 \strokec9 ||\cf5 \strokec5  \cf13 \strokec13 0\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 return\cf5 \strokec5  \cf13 \strokec13 0\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  setupFilters\cf9 \strokec9 (\cf5 \strokec5 data\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  rSel \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'roundFilter'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  sSel \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'segmentFilter'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cb1 \
-\cb3             allRounds \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [...\cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Set\cf9 \strokec9 (\cf5 \strokec5 data\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf9 \strokec9 ))].\cf5 \strokec5 sort\cf9 \strokec9 ().\cf5 \strokec5 reverse\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3             rSel\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 `<option value="all">\uc0\u3619 \u3623 \u3617 \u3607 \u3640 \u3585 \u3591 \u3623 \u3604 </option>`\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             allRounds\cf9 \strokec9 .\cf5 \strokec5 forEach\cf9 \strokec9 ((\cf5 \strokec5 r\cf9 \strokec9 ,\cf5 \strokec5  i\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 =>\cf5 \strokec5  rSel\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 +=\cf5 \strokec5  \cf11 \strokec11 `<option value="\cf9 \strokec9 $\{\cf5 \strokec5 r\cf9 \strokec9 \}\cf11 \strokec11 ">\cf9 \strokec9 $\{\cf5 \strokec5 r\cf9 \strokec9 \}$\{\cf5 \strokec5 i\cf9 \strokec9 ===\cf13 \strokec13 0\cf9 \strokec9 ?\cf11 \strokec11 " (\uc0\u3621 \u3656 \u3634 \u3626 \u3640 \u3604 )"\cf9 \strokec9 :\cf11 \strokec11 ""\cf9 \strokec9 \}\cf11 \strokec11 </option>`\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 allRounds\cf9 \strokec9 .\cf5 \strokec5 length\cf9 \strokec9 )\cf5 \strokec5  rSel\cf9 \strokec9 .\cf5 \strokec5 value \cf9 \strokec9 =\cf5 \strokec5  allRounds\cf9 \strokec9 [\cf13 \strokec13 0\cf9 \strokec9 ];\cf5 \cb1 \strokec5 \
-\
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  segs \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [...\cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Set\cf9 \strokec9 (\cf5 \strokec5 data\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ))].\cf5 \strokec5 sort\cf9 \strokec9 ((\cf5 \strokec5 a\cf9 \strokec9 ,\cf5 \strokec5 b\cf9 \strokec9 )=>(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 a\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 )-(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 b\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\cb3             sSel\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 `<option value="all">\uc0\u3607 \u3633 \u3657 \u3591 \u3627 \u3617 \u3604 </option>`\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             segs\cf9 \strokec9 .\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 s \cf9 \strokec9 =>\cf5 \strokec5  sSel\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 +=\cf5 \strokec5  \cf11 \strokec11 `<option value="\cf9 \strokec9 $\{\cf5 \strokec5 s\cf9 \strokec9 \}\cf11 \strokec11 ">\cf9 \strokec9 $\{\cf5 \strokec5 s\cf9 \strokec9 \}\cf11 \strokec11 </option>`\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cb1 \
-\cb3             document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'filterSection'\cf9 \strokec9 ).\cf5 \strokec5 style\cf9 \strokec9 .\cf5 \strokec5 display \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 'flex'\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  applyFilters\cf9 \strokec9 ()\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  rVal \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'roundFilter'\cf9 \strokec9 ).\cf5 \strokec5 value\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  sVal \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'segmentFilter'\cf9 \strokec9 ).\cf5 \strokec5 value\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cb1 \
-\cb3             \cf12 \strokec12 let\cf5 \strokec5  current \cf9 \strokec9 =\cf5 \strokec5  allDataRaw\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 rVal \cf9 \strokec9 !==\cf5 \strokec5  \cf11 \strokec11 'all'\cf9 \strokec9 )\cf5 \strokec5  current \cf9 \strokec9 =\cf5 \strokec5  current\cf9 \strokec9 .\cf5 \strokec5 filter\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf5 \strokec5  \cf9 \strokec9 ===\cf5 \strokec5  rVal\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 sVal \cf9 \strokec9 !==\cf5 \strokec5  \cf11 \strokec11 'all'\cf9 \strokec9 )\cf5 \strokec5  current \cf9 \strokec9 =\cf5 \strokec5  current\cf9 \strokec9 .\cf5 \strokec5 filter\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 segment \cf9 \strokec9 ===\cf5 \strokec5  sVal\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\
-\cb3             \cf12 \strokec12 let\cf5 \strokec5  prevMap \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 \{\};\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 let\cf5 \strokec5  showGrowth \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 false\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 rVal \cf9 \strokec9 !==\cf5 \strokec5  \cf11 \strokec11 'all'\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 const\cf5 \strokec5  idx \cf9 \strokec9 =\cf5 \strokec5  allRounds\cf9 \strokec9 .\cf5 \strokec5 indexOf\cf9 \strokec9 (\cf5 \strokec5 rVal\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 idx \cf9 \strokec9 !==\cf5 \strokec5  \cf9 \strokec9 -\cf13 \strokec13 1\cf5 \strokec5  \cf9 \strokec9 &&\cf5 \strokec5  idx\cf9 \strokec9 +\cf13 \strokec13 1\cf5 \strokec5  \cf9 \strokec9 <\cf5 \strokec5  allRounds\cf9 \strokec9 .\cf5 \strokec5 length\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                     \cf12 \strokec12 const\cf5 \strokec5  prevData \cf9 \strokec9 =\cf5 \strokec5  allDataRaw\cf9 \strokec9 .\cf5 \strokec5 filter\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf5 \strokec5  \cf9 \strokec9 ===\cf5 \strokec5  allRounds\cf9 \strokec9 [\cf5 \strokec5 idx\cf9 \strokec9 +\cf13 \strokec13 1\cf9 \strokec9 ]);\cf5 \cb1 \strokec5 \
-\cb3                     prevData\cf9 \strokec9 .\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  prevMap\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ]\cf5 \strokec5  \cf9 \strokec9 =\cf5 \strokec5  d\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                     showGrowth \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 true\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3                 \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3             renderCharts\cf9 \strokec9 (\cf5 \strokec5 current\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             renderCards\cf9 \strokec9 (\cf5 \strokec5 current\cf9 \strokec9 ,\cf5 \strokec5  prevMap\cf9 \strokec9 ,\cf5 \strokec5  showGrowth\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  renderCards\cf9 \strokec9 (\cf5 \strokec5 data\cf9 \strokec9 ,\cf5 \strokec5  prevMap\cf9 \strokec9 ,\cf5 \strokec5  showGrowth\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  container \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'dashboard'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             container\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 ''\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  sorted \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [...\cf5 \strokec5 data\cf9 \strokec9 ].\cf5 \strokec5 sort\cf9 \strokec9 ((\cf5 \strokec5 a\cf9 \strokec9 ,\cf5 \strokec5 b\cf9 \strokec9 )=>(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 a\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 )-(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 b\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\cb3             \cb1 \
-\cb3             sorted\cf9 \strokec9 .\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 let\cf5 \strokec5  uG \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 ''\cf9 \strokec9 ,\cf5 \strokec5  sG \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 ''\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 showGrowth \cf9 \strokec9 &&\cf5 \strokec5  prevMap\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ])\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                     uG \cf9 \strokec9 =\cf5 \strokec5  calcGrowth\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Count_User_Segment\cf9 \strokec9 ,\cf5 \strokec5  prevMap\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf14 \strokec14 Count_User_Segment\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                     sG \cf9 \strokec9 =\cf5 \strokec5  calcGrowth\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 ValueSpend\cf9 \strokec9 ,\cf5 \strokec5  prevMap\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf14 \strokec14 ValueSpend\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3                 \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 const\cf5 \strokec5  cls \cf9 \strokec9 =\cf5 \strokec5  \cf11 \strokec11 `bg-seq-\cf9 \strokec9 $\{\cf14 \strokec14 Math\cf9 \strokec9 .\cf5 \strokec5 min\cf9 \strokec9 (\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 )||\cf13 \strokec13 13\cf9 \strokec9 ,\cf5 \strokec5  \cf13 \strokec13 13\cf9 \strokec9 )\}\cf11 \strokec11 `\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3                 \cb1 \
-\cb3                 container\cf9 \strokec9 .\cf5 \strokec5 innerHTML \cf9 \strokec9 +=\cf5 \strokec5  \cf11 \strokec11 `\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11                 <div class="card">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                     <div class="card-header \cf9 \strokec9 $\{\cf5 \strokec5 cls\cf9 \strokec9 \}\cf11 \strokec11 ">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                         <span>\cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 \}\cf11 \strokec11 </span><span style="opacity:0.8; font-size:0.8rem;">\cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Most_Round\cf9 \strokec9 \}\cf11 \strokec11 </span>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                     </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                     <div class="card-body">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                         <div class="main-metrics">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             <div class="metric-block">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 <span class="metric-label">Users</span>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 <span class="metric-val">\cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Count_User_Segment\cf9 \strokec9 .\cf5 \strokec5 toLocaleString\cf9 \strokec9 ()\}\cf11 \strokec11 </span>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 \cf9 \strokec9 $\{\cf5 \strokec5 uG\cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             <div class="metric-block right">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 <span class="metric-label">Revenue</span>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 <span class="metric-val">\cf9 \strokec9 $\{\cf5 \strokec5 formatBaht\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 ValueSpend\cf9 \strokec9 )\}\cf11 \strokec11 </span>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                                 \cf9 \strokec9 $\{\cf5 \strokec5 sG\cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                         </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                         <div class="rfm-grid">\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             <div class="rfm-box">R: \cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Avg_R\cf9 \strokec9 \}\cf11 \strokec11 </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             <div class="rfm-box">F: \cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Median_F\cf9 \strokec9 \}\cf11 \strokec11 </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                             <div class="rfm-box">M: \cf9 \strokec9 $\{\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 Avg_M\cf9 \strokec9 .\cf5 \strokec5 toLocaleString\cf9 \strokec9 ()\}\cf11 \strokec11 </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                         </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                     </div>\cf5 \cb1 \strokec5 \
-\cf11 \cb3 \strokec11                 </div>`\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  calcGrowth\cf9 \strokec9 (\cf5 \strokec5 curr\cf9 \strokec9 ,\cf5 \strokec5  prev\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 prev\cf9 \strokec9 )\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  \cf11 \strokec11 `<span class="growth-badge growth-neutral">-</span>`\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  diff \cf9 \strokec9 =\cf5 \strokec5  curr \cf9 \strokec9 -\cf5 \strokec5  prev\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  pct \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 diff\cf9 \strokec9 /\cf5 \strokec5 prev\cf9 \strokec9 )*\cf13 \strokec13 100\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  cls \cf9 \strokec9 =\cf5 \strokec5  diff \cf9 \strokec9 >\cf5 \strokec5  \cf13 \strokec13 0\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  \cf11 \strokec11 'growth-up'\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 diff \cf9 \strokec9 <\cf5 \strokec5  \cf13 \strokec13 0\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  \cf11 \strokec11 'growth-down'\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'growth-neutral'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  icon \cf9 \strokec9 =\cf5 \strokec5  diff \cf9 \strokec9 >\cf5 \strokec5  \cf13 \strokec13 0\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  \cf11 \strokec11 'fa-arrow-up'\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 diff \cf9 \strokec9 <\cf5 \strokec5  \cf13 \strokec13 0\cf5 \strokec5  \cf9 \strokec9 ?\cf5 \strokec5  \cf11 \strokec11 'fa-arrow-down'\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'fa-minus'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 return\cf5 \strokec5  \cf11 \strokec11 `<span class="growth-badge \cf9 \strokec9 $\{\cf5 \strokec5 cls\cf9 \strokec9 \}\cf11 \strokec11 "><i class="fas \cf9 \strokec9 $\{\cf5 \strokec5 icon\cf9 \strokec9 \}\cf11 \strokec11 "></i> \cf9 \strokec9 $\{\cf14 \strokec14 Math\cf9 \strokec9 .\cf5 \strokec5 abs\cf9 \strokec9 (\cf5 \strokec5 pct\cf9 \strokec9 ).\cf5 \strokec5 toFixed\cf9 \strokec9 (\cf13 \strokec13 1\cf9 \strokec9 )\}\cf11 \strokec11 %</span>`\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 let\cf5 \strokec5  uChart\cf9 \strokec9 ,\cf5 \strokec5  rChart\cf9 \strokec9 ,\cf5 \strokec5  bChart\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  renderCharts\cf9 \strokec9 (\cf5 \strokec5 data\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  agg \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 \{\};\cf5 \cb1 \strokec5 \
-\cb3             data\cf9 \strokec9 .\cf5 \strokec5 forEach\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 \cf12 \strokec12 if\cf9 \strokec9 (!\cf5 \strokec5 agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ])\cf5 \strokec5  agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ]\cf5 \strokec5  \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  segment\cf9 \strokec9 :\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ,\cf5 \strokec5  users\cf9 \strokec9 :\cf13 \strokec13 0\cf9 \strokec9 ,\cf5 \strokec5  spend\cf9 \strokec9 :\cf13 \strokec13 0\cf9 \strokec9 ,\cf5 \strokec5  \cf14 \strokec14 R\cf9 \strokec9 :\cf13 \strokec13 0\cf9 \strokec9 ,\cf5 \strokec5  \cf14 \strokec14 F\cf9 \strokec9 :\cf13 \strokec13 0\cf9 \strokec9 ,\cf5 \strokec5  count\cf9 \strokec9 :\cf13 \strokec13 0\cf5 \strokec5  \cf9 \strokec9 \};\cf5 \cb1 \strokec5 \
-\cb3                 agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf5 \strokec5 users \cf9 \strokec9 +=\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Count_User_Segment\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3                 agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf5 \strokec5 spend \cf9 \strokec9 +=\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 ValueSpend\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3                 agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf14 \strokec14 R\cf5 \strokec5  \cf9 \strokec9 +=\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Avg_R\cf9 \strokec9 ;\cf5 \strokec5  agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf14 \strokec14 F\cf5 \strokec5  \cf9 \strokec9 +=\cf5 \strokec5  d\cf9 \strokec9 .\cf14 \strokec14 Median_F\cf9 \strokec9 ;\cf5 \strokec5  agg\cf9 \strokec9 [\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ].\cf5 \strokec5 count\cf9 \strokec9 ++;\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  final \cf9 \strokec9 =\cf5 \strokec5  \cf14 \strokec14 Object\cf9 \strokec9 .\cf5 \strokec5 values\cf9 \strokec9 (\cf5 \strokec5 agg\cf9 \strokec9 ).\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 (\{...\cf5 \strokec5 d\cf9 \strokec9 ,\cf5 \strokec5  \cf14 \strokec14 R\cf9 \strokec9 :\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 R\cf15 \strokec15 /d.count, F:d.F/\cf12 \strokec12 d\cf9 \strokec9 .\cf5 \strokec5 count\cf9 \strokec9 \})).\cf5 \strokec5 sort\cf9 \strokec9 ((\cf5 \strokec5 a\cf9 \strokec9 ,\cf5 \strokec5 b\cf9 \strokec9 )=>(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 a\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 )-(\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 b\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 )||\cf13 \strokec13 99\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\cb3             \cb1 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  labels \cf9 \strokec9 =\cf5 \strokec5  final\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  users \cf9 \strokec9 =\cf5 \strokec5  final\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 users\cf9 \strokec9 <=\cf13 \strokec13 0\cf9 \strokec9 ?\cf13 \strokec13 0.1\cf9 \strokec9 :\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 users\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  spends \cf9 \strokec9 =\cf5 \strokec5  final\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  d\cf9 \strokec9 .\cf5 \strokec5 spend\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  colors \cf9 \strokec9 =\cf5 \strokec5  final\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 (\cf5 \strokec5 d \cf9 \strokec9 =>\cf5 \strokec5  getSegColor\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment\cf9 \strokec9 ));\cf5 \cb1 \strokec5 \
-\
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  ctxU \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'userChart'\cf9 \strokec9 ).\cf5 \strokec5 getContext\cf9 \strokec9 (\cf11 \strokec11 '2d'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 uChart\cf9 \strokec9 )\cf5 \strokec5  uChart\cf9 \strokec9 .\cf5 \strokec5 destroy\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3             uChart \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Chart\cf9 \strokec9 (\cf5 \strokec5 ctxU\cf9 \strokec9 ,\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 type\cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'bar'\cf9 \strokec9 ,\cf5 \strokec5  data\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  labels\cf9 \strokec9 ,\cf5 \strokec5  datasets\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 [\{\cf5 \strokec5  data\cf9 \strokec9 :\cf5 \strokec5  users\cf9 \strokec9 ,\cf5 \strokec5  backgroundColor\cf9 \strokec9 :\cf5 \strokec5  colors\cf9 \strokec9 ,\cf5 \strokec5  borderRadius\cf9 \strokec9 :\cf13 \strokec13 4\cf5 \strokec5  \cf9 \strokec9 \}]\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \cb1 \strokec5 \
-\cb3                 options\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  indexAxis\cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'y'\cf9 \strokec9 ,\cf5 \strokec5  maintainAspectRatio\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 false\cf9 \strokec9 ,\cf5 \strokec5  plugins\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  legend\cf9 \strokec9 :\cf12 \strokec12 false\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \strokec5  scales\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  x\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  type\cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'logarithmic'\cf9 \strokec9 ,\cf5 \strokec5  min\cf9 \strokec9 :\cf13 \strokec13 1\cf9 \strokec9 ,\cf5 \strokec5  grid\cf9 \strokec9 :\{\cf5 \strokec5 display\cf9 \strokec9 :\cf12 \strokec12 false\cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \strokec5  y\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  grid\cf9 \strokec9 :\{\cf5 \strokec5 display\cf9 \strokec9 :\cf12 \strokec12 false\cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  ctxR \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'revenueChart'\cf9 \strokec9 ).\cf5 \strokec5 getContext\cf9 \strokec9 (\cf11 \strokec11 '2d'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 rChart\cf9 \strokec9 )\cf5 \strokec5  rChart\cf9 \strokec9 .\cf5 \strokec5 destroy\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3             rChart \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Chart\cf9 \strokec9 (\cf5 \strokec5 ctxR\cf9 \strokec9 ,\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 type\cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'doughnut'\cf9 \strokec9 ,\cf5 \strokec5  data\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  labels\cf9 \strokec9 ,\cf5 \strokec5  datasets\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 [\{\cf5 \strokec5  data\cf9 \strokec9 :\cf5 \strokec5  spends\cf9 \strokec9 ,\cf5 \strokec5  backgroundColor\cf9 \strokec9 :\cf5 \strokec5  colors\cf9 \strokec9 ,\cf5 \strokec5  borderWidth\cf9 \strokec9 :\cf13 \strokec13 1\cf5 \strokec5  \cf9 \strokec9 \}]\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \cb1 \strokec5 \
-\cb3                 options\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  maintainAspectRatio\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 false\cf9 \strokec9 ,\cf5 \strokec5  plugins\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  legend\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5 position\cf9 \strokec9 :\cf11 \strokec11 'right'\cf9 \strokec9 ,\cf5 \strokec5  labels\cf9 \strokec9 :\{\cf5 \strokec5 boxWidth\cf9 \strokec9 :\cf13 \strokec13 10\cf9 \strokec9 \}\}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  ctxB \cf9 \strokec9 =\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'bubbleChart'\cf9 \strokec9 ).\cf5 \strokec5 getContext\cf9 \strokec9 (\cf11 \strokec11 '2d'\cf9 \strokec9 );\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 if\cf9 \strokec9 (\cf5 \strokec5 bChart\cf9 \strokec9 )\cf5 \strokec5  bChart\cf9 \strokec9 .\cf5 \strokec5 destroy\cf9 \strokec9 ();\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  maxS \cf9 \strokec9 =\cf5 \strokec5  \cf14 \strokec14 Math\cf9 \strokec9 .\cf5 \strokec5 max\cf9 \strokec9 (...\cf5 \strokec5 spends\cf9 \strokec9 )||\cf13 \strokec13 1\cf9 \strokec9 ;\cf5 \cb1 \strokec5 \
-\cb3             \cf12 \strokec12 const\cf5 \strokec5  bData \cf9 \strokec9 =\cf5 \strokec5  final\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 ((\cf5 \strokec5 d\cf9 \strokec9 ,\cf5 \strokec5 i\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 =>\cf5 \strokec5  \cf9 \strokec9 (\{\cf5 \strokec5  x\cf9 \strokec9 :\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 R\cf9 \strokec9 ,\cf5 \strokec5  y\cf9 \strokec9 :\cf5 \strokec5 d\cf9 \strokec9 .\cf14 \strokec14 F\cf9 \strokec9 ,\cf5 \strokec5  r\cf9 \strokec9 :\cf5 \strokec5  \cf14 \strokec14 Math\cf9 \strokec9 .\cf5 \strokec5 sqrt\cf9 \strokec9 (\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 spend\cf9 \strokec9 /\cf5 \strokec5 maxS\cf9 \strokec9 )*\cf13 \strokec13 30\cf9 \strokec9 +\cf13 \strokec13 5\cf9 \strokec9 ,\cf5 \strokec5  _seg\cf9 \strokec9 :\cf5 \strokec5 d\cf9 \strokec9 .\cf5 \strokec5 segment \cf9 \strokec9 \}));\cf5 \cb1 \strokec5 \
-\cb3             bChart \cf9 \strokec9 =\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Chart\cf9 \strokec9 (\cf5 \strokec5 ctxB\cf9 \strokec9 ,\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \cb1 \strokec5 \
-\cb3                 type\cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'bubble'\cf9 \strokec9 ,\cf5 \strokec5  data\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  datasets\cf9 \strokec9 :\cf5 \strokec5  bData\cf9 \strokec9 .\cf5 \strokec5 map\cf9 \strokec9 ((\cf5 \strokec5 b\cf9 \strokec9 ,\cf5 \strokec5 i\cf9 \strokec9 )=>(\{\cf5 \strokec5  label\cf9 \strokec9 :\cf5 \strokec5 b\cf9 \strokec9 .\cf5 \strokec5 _seg\cf9 \strokec9 ,\cf5 \strokec5  data\cf9 \strokec9 :[\cf5 \strokec5 b\cf9 \strokec9 ],\cf5 \strokec5  backgroundColor\cf9 \strokec9 :\cf5 \strokec5 colors\cf9 \strokec9 [\cf5 \strokec5 i\cf9 \strokec9 ],\cf5 \strokec5  borderColor\cf9 \strokec9 :\cf5 \strokec5 colors\cf9 \strokec9 [\cf5 \strokec5 i\cf9 \strokec9 ]\cf5 \strokec5  \cf9 \strokec9 \}))\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \cb1 \strokec5 \
-\cb3                 options\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  maintainAspectRatio\cf9 \strokec9 :\cf5 \strokec5  \cf12 \strokec12 false\cf9 \strokec9 ,\cf5 \strokec5  plugins\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  legend\cf9 \strokec9 :\cf12 \strokec12 false\cf9 \strokec9 ,\cf5 \strokec5  tooltip\cf9 \strokec9 :\{\cf5 \strokec5 callbacks\cf9 \strokec9 :\{\cf5 \strokec5 label\cf9 \strokec9 :\cf5 \strokec5  c\cf9 \strokec9 =>\cf11 \strokec11 `\cf9 \strokec9 $\{\cf5 \strokec5 c\cf9 \strokec9 .\cf5 \strokec5 raw\cf9 \strokec9 .\cf5 \strokec5 _seg\cf9 \strokec9 \}\cf11 \strokec11 : R=\cf9 \strokec9 $\{\cf5 \strokec5 c\cf9 \strokec9 .\cf5 \strokec5 raw\cf9 \strokec9 .\cf5 \strokec5 x\cf9 \strokec9 .\cf5 \strokec5 toFixed\cf9 \strokec9 (\cf13 \strokec13 1\cf9 \strokec9 )\}\cf11 \strokec11 , F=\cf9 \strokec9 $\{\cf5 \strokec5 c\cf9 \strokec9 .\cf5 \strokec5 raw\cf9 \strokec9 .\cf5 \strokec5 y\cf9 \strokec9 .\cf5 \strokec5 toFixed\cf9 \strokec9 (\cf13 \strokec13 1\cf9 \strokec9 )\}\cf11 \strokec11 `\cf9 \strokec9 \}\}\cf5 \strokec5  \cf9 \strokec9 \},\cf5 \strokec5  scales\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  x\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5 title\cf9 \strokec9 :\{\cf5 \strokec5 display\cf9 \strokec9 :\cf12 \strokec12 true\cf9 \strokec9 ,\cf5 \strokec5  text\cf9 \strokec9 :\cf11 \strokec11 'Recency'\cf9 \strokec9 \}\},\cf5 \strokec5  y\cf9 \strokec9 :\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5 title\cf9 \strokec9 :\{\cf5 \strokec5 display\cf9 \strokec9 :\cf12 \strokec12 true\cf9 \strokec9 ,\cf5 \strokec5  text\cf9 \strokec9 :\cf11 \strokec11 'Frequency'\cf9 \strokec9 \}\}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3             \cf9 \strokec9 \});\cf5 \cb1 \strokec5 \
-\cb3         \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  formatBaht\cf9 \strokec9 (\cf5 \strokec5 n\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  \cf12 \strokec12 new\cf5 \strokec5  \cf14 \strokec14 Intl\cf9 \strokec9 .\cf14 \strokec14 NumberFormat\cf9 \strokec9 (\cf11 \strokec11 'th-TH'\cf9 \strokec9 ,\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5 style\cf9 \strokec9 :\cf11 \strokec11 'currency'\cf9 \strokec9 ,\cf5 \strokec5  currency\cf9 \strokec9 :\cf11 \strokec11 'THB'\cf9 \strokec9 ,\cf5 \strokec5  maximumFractionDigits\cf9 \strokec9 :\cf13 \strokec13 0\cf9 \strokec9 \}).\cf5 \strokec5 format\cf9 \strokec9 (\cf5 \strokec5 n\cf9 \strokec9 );\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  getSegColor\cf9 \strokec9 (\cf5 \strokec5 n\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  \cf12 \strokec12 const\cf5 \strokec5  i \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 (\cf5 \strokec5 parseInt\cf9 \strokec9 (\cf5 \strokec5 n\cf9 \strokec9 )||\cf13 \strokec13 13\cf9 \strokec9 )-\cf13 \strokec13 1\cf9 \strokec9 ;\cf5 \strokec5  \cf12 \strokec12 const\cf5 \strokec5  c \cf9 \strokec9 =\cf5 \strokec5  \cf9 \strokec9 [\cf11 \strokec11 '#10b981'\cf9 \strokec9 ,\cf11 \strokec11 '#34d399'\cf9 \strokec9 ,\cf11 \strokec11 '#2dd4bf'\cf9 \strokec9 ,\cf11 \strokec11 '#06b6d4'\cf9 \strokec9 ,\cf11 \strokec11 '#38bdf8'\cf9 \strokec9 ,\cf11 \strokec11 '#60a5fa'\cf9 \strokec9 ,\cf11 \strokec11 '#818cf8'\cf9 \strokec9 ,\cf11 \strokec11 '#a78bfa'\cf9 \strokec9 ,\cf11 \strokec11 '#c084fc'\cf9 \strokec9 ,\cf11 \strokec11 '#e879f9'\cf9 \strokec9 ,\cf11 \strokec11 '#fb7185'\cf9 \strokec9 ,\cf11 \strokec11 '#f472b6'\cf9 \strokec9 ,\cf11 \strokec11 '#9ca3af'\cf9 \strokec9 ];\cf5 \strokec5  \cf12 \strokec12 return\cf5 \strokec5  c\cf9 \strokec9 [\cf5 \strokec5 i\cf9 \strokec9 %\cf13 \strokec13 13\cf9 \strokec9 ];\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  setLoading\cf9 \strokec9 (\cf5 \strokec5 s\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'loadingOverlay'\cf9 \strokec9 ).\cf5 \strokec5 style\cf9 \strokec9 .\cf5 \strokec5 display \cf9 \strokec9 =\cf5 \strokec5  s \cf9 \strokec9 ?\cf5 \strokec5  \cf11 \strokec11 'flex'\cf5 \strokec5  \cf9 \strokec9 :\cf5 \strokec5  \cf11 \strokec11 'none'\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3         \cf12 \strokec12 function\cf5 \strokec5  setStatus\cf9 \strokec9 (\cf5 \strokec5 m\cf9 \strokec9 )\cf5 \strokec5  \cf9 \strokec9 \{\cf5 \strokec5  document\cf9 \strokec9 .\cf5 \strokec5 getElementById\cf9 \strokec9 (\cf11 \strokec11 'statusMsg'\cf9 \strokec9 ).\cf5 \strokec5 innerText \cf9 \strokec9 =\cf5 \strokec5  m\cf9 \strokec9 ;\cf5 \strokec5  \cf9 \strokec9 \}\cf5 \cb1 \strokec5 \
-\cb3     \cf6 \strokec6 </\cf2 \strokec2 script\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 </\cf2 \strokec2 body\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-\cf6 \cb3 \strokec6 </\cf2 \strokec2 html\cf6 \strokec6 >\cf5 \cb1 \strokec5 \
-}
+        .controls-card { max-width: 1400px; margin: 0 auto 20px; background: white; padding: 20px; border-radius: 16px; box-shadow: var(--shadow); border: 1px solid #e5e7eb; }
+        
+        /* Tabs */
+        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .tab-btn { padding: 10px 24px; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; background: #f9fafb; font-weight: 500; transition: 0.2s; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .input-group { display: none; flex-direction: column; align-items: center; gap: 15px; }
+        .input-group.active { display: flex; }
+        
+        .url-input { width: 100%; max-width: 600px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-family: 'Kanit'; font-size: 1rem; }
+        .btn-primary { background: var(--primary); color: white; padding: 10px 24px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        .btn-primary:hover { background: #1d4ed8; }
+
+        /* Filter Bar */
+        .filter-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+        .filter-select { padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; font-family: 'Kanit'; min-width: 200px; background: #f9fafb; }
+
+        /* Charts */
+        .charts-container { max-width: 1400px; margin: 0 auto 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .chart-full { grid-column: 1 / -1; }
+        .chart-card { background: white; border-radius: 16px; padding: 20px; box-shadow: var(--shadow); height: 400px; position: relative; border: 1px solid #e5e7eb; }
+
+        /* Dashboard Cards */
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; max-width: 1400px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; transition: transform 0.2s; border: 1px solid #e5e7eb; }
+        .card:hover { transform: translateY(-3px); }
+        .card-header { padding: 12px 15px; color: white; display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
+        .card-body { padding: 15px; }
+
+        .metric-block { display: flex; flex-direction: column; }
+        .metric-block.right { align-items: flex-end; text-align: right; }
+        .metric-val { font-size: 1.2rem; font-weight: 600; color: #111827; }
+        .metric-label { font-size: 0.8rem; color: #6b7280; }
+        .main-metrics { display: flex; justify-content: space-between; margin: 15px 0; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        /* Growth Badges */
+        .growth-badge { font-size: 0.75rem; font-weight: 500; display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border-radius: 4px; margin-top: 4px; }
+        .growth-up { color: #059669; background: #d1fae5; }
+        .growth-down { color: #dc2626; background: #fee2e2; }
+        .growth-neutral { color: #6b7280; background: #f3f4f6; }
+        
+        .rfm-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; text-align: center; font-size: 0.8rem; }
+        .rfm-box { background: #f9fafb; padding: 8px; border-radius: 6px; }
+
+        /* Loading */
+        #loadingOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); display: none; justify-content: center; align-items: center; z-index: 1000; flex-direction: column; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #2563eb; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin-bottom: 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Dynamic Colors */
+        .bg-seq-1 { background: #10b981; } .bg-seq-2 { background: #34d399; } .bg-seq-3 { background: #2dd4bf; }
+        .bg-seq-4 { background: #06b6d4; } .bg-seq-5 { background: #38bdf8; } .bg-seq-6 { background: #60a5fa; }
+        .bg-seq-7 { background: #818cf8; } .bg-seq-8 { background: #a78bfa; } .bg-seq-9 { background: #c084fc; }
+        .bg-seq-10 { background: #e879f9; } .bg-seq-11 { background: #fb7185; } .bg-seq-12 { background: #f472b6; } .bg-seq-13 { background: #9ca3af; }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay"><div class="spinner"></div><div>กำลังโหลดข้อมูล...</div></div>
+
+    <header>
+        <h1><i class="fas fa-chart-line"></i> RFM Dashboard (Cloud Run Ready)</h1>
+        <p style="color:#6b7280;">เชื่อมต่อข้อมูลผ่าน CSV หรือ Cloud Run API (Databricks/BigQuery)</p>
+        
+        <!-- เพิ่มปุ่มนี้เพื่อลิ้งค์ไปหน้า Simulation -->
+        <a href="rfm-simulation.html" class="sim-btn">
+            <i class="fas fa-flask"></i> RFM Simulation
+        </a>
+    </header>
+
+    <div class="controls-card">
+        <div class="tabs">
+            <div class="tab-btn active" onclick="switchTab('csv')"><i class="fas fa-file-csv"></i> Upload CSV</div>
+            <div class="tab-btn" onclick="switchTab('api')"><i class="fas fa-cloud"></i> Connect API</div>
+        </div>
+
+        <!-- CSV Input -->
+        <div id="csvInput" class="input-group active">
+            <input type="file" id="csvFile" accept=".csv" style="display:none;" onchange="handleCSV(this)">
+            <button class="btn-primary" onclick="document.getElementById('csvFile').click()">
+                <i class="fas fa-upload"></i> เลือกไฟล์ CSV
+            </button>
+        </div>
+
+        <!-- API Input -->
+        <div id="apiInput" class="input-group">
+            <label style="font-size:0.9rem; color:#6b7280;">ใส่ Cloud Run URL (ต้องลงท้ายด้วย /api/rfm-data)</label>
+            <input type="text" id="apiUrl" class="url-input" placeholder="https://rfm-api-service-xyz.a.run.app/api/rfm-data">
+            <button class="btn-primary" onclick="fetchAPIData()"><i class="fas fa-sync"></i> ดึงข้อมูล API</button>
+        </div>
+
+        <div id="statusMsg" style="text-align:center; margin-top:10px; color:#059669; font-size:0.9rem;"></div>
+
+        <!-- Filters -->
+        <div id="filterSection" class="filter-bar" style="display:none;">
+            <div>
+                <label style="font-size:0.85rem; font-weight:600; display:block; margin-bottom:5px;">งวดข้อมูล (Most_Round)</label>
+                <select id="roundFilter" class="filter-select" onchange="applyFilters()"></select>
+            </div>
+            <div>
+                <label style="font-size:0.85rem; font-weight:600; display:block; margin-bottom:5px;">กลุ่มลูกค้า (Segment)</label>
+                <select id="segmentFilter" class="filter-select" onchange="applyFilters()"></select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-container">
+        <div class="chart-card">
+            <h3 style="text-align:center; font-size:1rem; margin-bottom:10px;">User Distribution (Log Scale)</h3>
+            <div style="height:340px;"><canvas id="userChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3 style="text-align:center; font-size:1rem; margin-bottom:10px;">Revenue Share</h3>
+            <div style="height:340px;"><canvas id="revenueChart"></canvas></div>
+        </div>
+        <div class="chart-card chart-full">
+            <h3 style="text-align:center; font-size:1rem; margin-bottom:10px;">RFM Matrix</h3>
+            <div style="height:340px;"><canvas id="bubbleChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Cards -->
+    <div id="dashboard" class="dashboard-grid">
+        <div style="grid-column:1/-1; text-align:center; padding:50px; color:#9ca3af;">
+            <i class="fas fa-cloud-download-alt" style="font-size:3rem; margin-bottom:15px;"></i>
+            <h3>รอข้อมูล...</h3>
+        </div>
+    </div>
+
+    <script>
+        let allDataRaw = [], allRounds = [];
+
+        function switchTab(mode) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.input-group').forEach(g => g.classList.remove('active'));
+            if(mode === 'csv') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('csvInput').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('apiInput').classList.add('active');
+            }
+        }
+
+        function handleCSV(input) {
+            const file = input.files[0];
+            if(!file) return;
+            setLoading(true);
+            Papa.parse(file, { header: true, dynamicTyping: false, skipEmptyLines: true,
+                complete: res => { processData(res.data); setLoading(false); setStatus(`โหลด CSV: ${res.data.length} รายการ`); },
+                error: err => { alert(err.message); setLoading(false); }
+            });
+        }
+
+        async function fetchAPIData() {
+            const url = document.getElementById('apiUrl').value.trim();
+            if(!url) return alert("กรุณาใส่ URL API");
+            setLoading(true);
+            try {
+                const res = await fetch(url);
+                if(!res.ok) throw new Error("API Error: " + res.status);
+                const json = await res.json();
+                const rows = Array.isArray(json) ? json : (json.data || []);
+                if(!rows.length) throw new Error("ไม่พบข้อมูล");
+                processData(rows);
+                setStatus(`ดึง API สำเร็จ: ${rows.length} รายการ`);
+            } catch (e) { alert("เชื่อมต่อไม่ได้: " + e.message + "\n(ตรวจสอบ CORS หรือ URL)"); } 
+            finally { setLoading(false); }
+        }
+
+        function processData(rows) {
+            allDataRaw = rows.filter(d => d.segment).map(d => ({
+                ...d,
+                Count_User_Segment: cleanNum(d.Count_User_Segment),
+                ValueSpend: cleanNum(d.ValueSpend),
+                Avg_R: cleanNum(d.Avg_R), Median_F: cleanNum(d.Median_F), Avg_M: cleanNum(d.Avg_M),
+                Most_Round: d.Most_Round ? d.Most_Round.trim() : 'Unknown'
+            }));
+            setupFilters(allDataRaw);
+            applyFilters();
+        }
+
+        function cleanNum(v) {
+            if(typeof v === 'number') return v;
+            if(typeof v === 'string') return parseFloat(v.replace(/,/g, '')) || 0;
+            return 0;
+        }
+
+        function setupFilters(data) {
+            const rSel = document.getElementById('roundFilter');
+            const sSel = document.getElementById('segmentFilter');
+            
+            allRounds = [...new Set(data.map(d => d.Most_Round))].sort().reverse();
+            rSel.innerHTML = `<option value="all">รวมทุกงวด</option>`;
+            allRounds.forEach((r, i) => rSel.innerHTML += `<option value="${r}">${r}${i===0?" (ล่าสุด)":""}</option>`);
+            if(allRounds.length) rSel.value = allRounds[0];
+
+            const segs = [...new Set(data.map(d => d.segment))].sort((a,b)=>(parseInt(a)||99)-(parseInt(b)||99));
+            sSel.innerHTML = `<option value="all">ทั้งหมด</option>`;
+            segs.forEach(s => sSel.innerHTML += `<option value="${s}">${s}</option>`);
+            
+            document.getElementById('filterSection').style.display = 'flex';
+        }
+
+        function applyFilters() {
+            const rVal = document.getElementById('roundFilter').value;
+            const sVal = document.getElementById('segmentFilter').value;
+            
+            let current = allDataRaw;
+            if(rVal !== 'all') current = current.filter(d => d.Most_Round === rVal);
+            if(sVal !== 'all') current = current.filter(d => d.segment === sVal);
+
+            let prevMap = {};
+            let showGrowth = false;
+            if(rVal !== 'all') {
+                const idx = allRounds.indexOf(rVal);
+                if(idx !== -1 && idx+1 < allRounds.length) {
+                    const prevData = allDataRaw.filter(d => d.Most_Round === allRounds[idx+1]);
+                    prevData.forEach(d => prevMap[d.segment] = d);
+                    showGrowth = true;
+                }
+            }
+
+            renderCharts(current);
+            renderCards(current, prevMap, showGrowth);
+        }
+
+        function renderCards(data, prevMap, showGrowth) {
+            const container = document.getElementById('dashboard');
+            container.innerHTML = '';
+            const sorted = [...data].sort((a,b)=>(parseInt(a.segment)||99)-(parseInt(b.segment)||99));
+            
+            sorted.forEach(d => {
+                let uG = '', sG = '';
+                if(showGrowth && prevMap[d.segment]) {
+                    uG = calcGrowth(d.Count_User_Segment, prevMap[d.segment].Count_User_Segment);
+                    sG = calcGrowth(d.ValueSpend, prevMap[d.segment].ValueSpend);
+                }
+                const cls = `bg-seq-${Math.min(parseInt(d.segment)||13, 13)}`;
+                
+                container.innerHTML += `
+                <div class="card">
+                    <div class="card-header ${cls}">
+                        <span>${d.segment}</span><span style="opacity:0.8; font-size:0.8rem;">${d.Most_Round}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="main-metrics">
+                            <div class="metric-block">
+                                <span class="metric-label">Users</span>
+                                <span class="metric-val">${d.Count_User_Segment.toLocaleString()}</span>
+                                ${uG}
+                            </div>
+                            <div class="metric-block right">
+                                <span class="metric-label">Revenue</span>
+                                <span class="metric-val">${formatBaht(d.ValueSpend)}</span>
+                                ${sG}
+                            </div>
+                        </div>
+                        <div class="rfm-grid">
+                            <div class="rfm-box">R: ${d.Avg_R}</div>
+                            <div class="rfm-box">F: ${d.Median_F}</div>
+                            <div class="rfm-box">M: ${d.Avg_M.toLocaleString()}</div>
+                        </div>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function calcGrowth(curr, prev) {
+            if(!prev) return `<span class="growth-badge growth-neutral">-</span>`;
+            const diff = curr - prev;
+            const pct = (diff/prev)*100;
+            const cls = diff > 0 ? 'growth-up' : (diff < 0 ? 'growth-down' : 'growth-neutral');
+            const icon = diff > 0 ? 'fa-arrow-up' : (diff < 0 ? 'fa-arrow-down' : 'fa-minus');
+            return `<span class="growth-badge ${cls}"><i class="fas ${icon}"></i> ${Math.abs(pct).toFixed(1)}%</span>`;
+        }
+
+        let uChart, rChart, bChart;
+        function renderCharts(data) {
+            const agg = {};
+            data.forEach(d => {
+                if(!agg[d.segment]) agg[d.segment] = { segment: d.segment, users:0, spend:0, R:0, F:0, count:0 };
+                agg[d.segment].users += d.Count_User_Segment;
+                agg[d.segment].spend += d.ValueSpend;
+                agg[d.segment].R += d.Avg_R; agg[d.segment].F += d.Median_F; agg[d.segment].count++;
+            });
+            const final = Object.values(agg).map(d => ({...d, R:d.R/d.count, F:d.F/d.count})).sort((a,b)=>(parseInt(a.segment)||99)-(parseInt(b.segment)||99));
+            
+            const labels = final.map(d => d.segment);
+            const users = final.map(d => d.users<=0?0.1:d.users);
+            const spends = final.map(d => d.spend);
+            const colors = final.map(d => getSegColor(d.segment));
+
+            const ctxU = document.getElementById('userChart').getContext('2d');
+            if(uChart) uChart.destroy();
+            uChart = new Chart(ctxU, {
+                type: 'bar', data: { labels, datasets: [{ data: users, backgroundColor: colors, borderRadius:4 }] },
+                options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend:false }, scales: { x: { type: 'logarithmic', min:1, grid:{display:false} }, y: { grid:{display:false} } } }
+            });
+
+            const ctxR = document.getElementById('revenueChart').getContext('2d');
+            if(rChart) rChart.destroy();
+            rChart = new Chart(ctxR, {
+                type: 'doughnut', data: { labels, datasets: [{ data: spends, backgroundColor: colors, borderWidth:1 }] },
+                options: { maintainAspectRatio: false, plugins: { legend: {position:'right', labels:{boxWidth:10}} } }
+            });
+
+            const ctxB = document.getElementById('bubbleChart').getContext('2d');
+            if(bChart) bChart.destroy();
+            const maxS = Math.max(...spends)||1;
+            const bData = final.map((d,i) => ({ x:d.R, y:d.F, r: Math.sqrt(d.spend/maxS)*30+5, _seg:d.segment }));
+            bChart = new Chart(ctxB, {
+                type: 'bubble', data: { datasets: bData.map((b,i)=>({ label:b._seg, data:[b], backgroundColor:colors[i], borderColor:colors[i] })) },
+                options: { maintainAspectRatio: false, plugins: { legend:false, tooltip:{callbacks:{label: c=>`${c.raw._seg}: R=${c.raw.x.toFixed(1)}, F=${c.raw.y.toFixed(1)}`}} }, scales: { x: {title:{display:true, text:'Recency'}}, y: {title:{display:true, text:'Frequency'}} } }
+            });
+        }
+
+        function formatBaht(n) { return new Intl.NumberFormat('th-TH', {style:'currency', currency:'THB', maximumFractionDigits:0}).format(n); }
+        function getSegColor(n) { const i = (parseInt(n)||13)-1; const c = ['#10b981','#34d399','#2dd4bf','#06b6d4','#38bdf8','#60a5fa','#818cf8','#a78bfa','#c084fc','#e879f9','#fb7185','#f472b6','#9ca3af']; return c[i%13]; }
+        function setLoading(s) { document.getElementById('loadingOverlay').style.display = s ? 'flex' : 'none'; }
+        function setStatus(m) { document.getElementById('statusMsg').innerText = m; }
+    </script>
+</body>
+</html>
